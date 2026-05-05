@@ -5,6 +5,7 @@ import { Send, Bot, Menu, Code, Wrench, BookOpen, Briefcase, MessageSquare } fro
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { processQuery } from "../utils/mockAgent";
+import type { AgentResponse } from "../types/agent";
 
 type Message = {
   id: string;
@@ -107,6 +108,7 @@ export default function ChatInterface() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [graphifyMode, setGraphifyMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -131,7 +133,19 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     try {
-      const response = await processQuery(text);
+      let response: string;
+      if (graphifyMode) {
+        // Query the graphify graph
+        const res = await fetch('/api/graphify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: text }),
+        });
+        const data: AgentResponse = await res.json();
+        response = data.result || data.error || 'Error querying graph';
+      } else {
+        response = await processQuery(text);
+      }
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "ai",
@@ -140,6 +154,12 @@ export default function ChatInterface() {
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       console.error(error);
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "ai",
+        content: "Sorry, there was an error processing your request.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -165,6 +185,21 @@ export default function ChatInterface() {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                 <span className="text-xl text-ai-primary">+</span> New Chat
+              </motion.button>
+
+              <motion.button 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setGraphifyMode(!graphifyMode)}
+                className={`flex items-center gap-2 p-3 w-full border rounded-xl text-sm font-medium transition-colors shadow-sm relative overflow-hidden group ${
+                  graphifyMode 
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 border-blue-500 text-white' 
+                    : 'bg-gradient-to-r from-ai-panel-hover to-[#2a2a2a] border-[#333] hover:border-[#555] text-gray-300'
+                }`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                <Code size={16} className="flex-shrink-0" />
+                Graphify Mode {graphifyMode ? 'ON' : 'OFF'}
               </motion.button>
               
               <div className="mt-8 flex-1 overflow-y-auto pr-1">
@@ -313,7 +348,7 @@ export default function ChatInterface() {
                     handleSend(input);
                   }
                 }}
-                placeholder="Message Rohan GPT..."
+                placeholder={graphifyMode ? "Query the codebase graph..." : "Message Rohan GPT..."}
                 className="w-full bg-[#2f2f2f] border border-[#444] text-white rounded-xl pl-4 pr-12 py-3 md:py-4 focus:outline-none focus:ring-1 focus:ring-gray-500 resize-none min-h-[52px] max-h-[200px]"
                 rows={1}
                 style={{ overflowY: "hidden" }}
