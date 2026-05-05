@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, User, Bot, Menu, ChevronRight, Code, Wrench, BookOpen, Briefcase, MessageSquare } from "lucide-react";
+import { Send, Bot, Menu, Code, Wrench, BookOpen, Briefcase, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import { processQuery } from "../utils/mockAgent";
