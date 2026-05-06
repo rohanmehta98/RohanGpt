@@ -1,0 +1,299 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1",
+      "id": "eslint_config_mjs",
+      "community": 5,
+      "norm_label": "eslint.config.mjs"
+    },
+    {
+      "label": "next-env.d.ts",
+      "file_type": "code",
+      "source_file": "next-env.d.ts",
+      "source_location": "L1",
+      "id": "next_env_d_ts",
+      "community": 6,
+      "norm_label": "next-env.d.ts"
+    },
+    {
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "id": "next_config_ts",
+      "community": 7,
+      "norm_label": "next.config.ts"
+    },
+    {
+      "label": "postcss.config.mjs",
+      "file_type": "code",
+      "source_file": "postcss.config.mjs",
+      "source_location": "L1",
+      "id": "postcss_config_mjs",
+      "community": 8,
+      "norm_label": "postcss.config.mjs"
+    },
+    {
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L1",
+      "id": "src_app_layout_tsx",
+      "community": 2,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L12",
+      "id": "app_layout_rootlayout",
+      "community": 2,
+      "norm_label": "rootlayout()"
+    },
+    {
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L1",
+      "id": "src_app_page_tsx",
+      "community": 3,
+      "norm_label": "page.tsx"
+    },
+    {
+      "label": "Home()",
+      "file_type": "code",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "id": "app_page_home",
+      "community": 3,
+      "norm_label": "home()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "src/app/api/chat/route.ts",
+      "source_location": "L1",
+      "id": "src_app_api_chat_route_ts",
+      "community": 4,
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "POST()",
+      "file_type": "code",
+      "source_file": "src/app/api/chat/route.ts",
+      "source_location": "L8",
+      "id": "chat_route_post",
+      "community": 4,
+      "norm_label": "post()"
+    },
+    {
+      "label": "ChatInterface.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ChatInterface.tsx",
+      "source_location": "L1",
+      "id": "src_components_chatinterface_tsx",
+      "community": 0,
+      "norm_label": "chatinterface.tsx"
+    },
+    {
+      "label": "portfolioData.ts",
+      "file_type": "code",
+      "source_file": "src/data/portfolioData.ts",
+      "source_location": "L1",
+      "id": "src_data_portfoliodata_ts",
+      "community": 9,
+      "norm_label": "portfoliodata.ts"
+    },
+    {
+      "label": "agent.ts",
+      "file_type": "code",
+      "source_file": "src/types/agent.ts",
+      "source_location": "L1",
+      "id": "src_types_agent_ts",
+      "community": 10,
+      "norm_label": "agent.ts"
+    },
+    {
+      "label": "mockAgent.ts",
+      "file_type": "code",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L1",
+      "id": "src_utils_mockagent_ts",
+      "community": 0,
+      "norm_label": "mockagent.ts"
+    },
+    {
+      "label": "delay()",
+      "file_type": "code",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L4",
+      "id": "utils_mockagent_delay",
+      "community": 0,
+      "norm_label": "delay()"
+    },
+    {
+      "label": "processQuery()",
+      "file_type": "code",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L6",
+      "id": "utils_mockagent_processquery",
+      "community": 0,
+      "norm_label": "processquery()"
+    },
+    {
+      "label": "ChatInterface Component",
+      "file_type": "code",
+      "source_file": "src/components/ChatInterface.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "chatinterface_chatinterface",
+      "community": 1,
+      "norm_label": "chatinterface component"
+    },
+    {
+      "label": "Chat API Route",
+      "file_type": "code",
+      "source_file": "src/app/api/chat/route.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "route_post",
+      "community": 1,
+      "norm_label": "chat api route"
+    },
+    {
+      "label": "Portfolio Data",
+      "file_type": "code",
+      "source_file": "src/data/portfolioData.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "portfoliodata_portfolio",
+      "community": 1,
+      "norm_label": "portfolio data"
+    },
+    {
+      "label": "Next.js Agent Rules",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "agent_rules",
+      "community": 11,
+      "norm_label": "next.js agent rules"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "src_app_layout_tsx",
+      "target": "app_layout_rootlayout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_app_page_tsx",
+      "target": "app_page_home",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/api/chat/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "src_app_api_chat_route_ts",
+      "target": "chat_route_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ChatInterface.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_components_chatinterface_tsx",
+      "target": "utils_mockagent_processquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_utils_mockagent_ts",
+      "target": "utils_mockagent_delay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "src_utils_mockagent_ts",
+      "target": "utils_mockagent_processquery",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/mockAgent.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "utils_mockagent_processquery",
+      "target": "utils_mockagent_delay",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ChatInterface.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "chatinterface_chatinterface",
+      "target": "route_post"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/api/chat/route.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "route_post",
+      "target": "portfoliodata_portfolio"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "797159706b2759be1c10eaf419a93c7fbe1a05bd"
+}

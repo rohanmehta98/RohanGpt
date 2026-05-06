@@ -1,8 +1,9 @@
 import { portfolioData } from "../data/portfolioData";
+import type { QueryHandler } from "../types/agent";
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export async function processQuery(query: string): Promise<string> {
+export const processQuery: QueryHandler = async (query) => {
   const lowerQuery = query.toLowerCase();
 
   // Simulate network delay for realism
