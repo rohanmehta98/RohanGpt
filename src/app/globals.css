@@ -2,17 +2,35 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-ai-bg: #111111;
-  --color-ai-panel: #1A1A1A;
-  --color-ai-panel-hover: #212121;
-  --color-ai-border: #333333;
+  --color-ai-bg: var(--theme-bg);
+  --color-ai-panel: var(--theme-panel);
+  --color-ai-panel-hover: var(--theme-panel-hover);
+  --color-ai-border: var(--theme-border);
   --color-ai-primary: #10a37f;
   --color-ai-primary-hover: #1a7f64;
-  --color-ai-text: #ececec;
-  --color-ai-muted: #9b9b9b;
+  --color-ai-text: var(--theme-text);
+  --color-ai-muted: var(--theme-muted);
 }
 
 @layer base {
+  :root {
+    --theme-bg: #ffffff;
+    --theme-panel: #f7f7f8;
+    --theme-panel-hover: #ececf1;
+    --theme-border: #e5e5e5;
+    --theme-text: #0d0d0d;
+    --theme-muted: #6e6e80;
+  }
+  
+  .dark {
+    --theme-bg: #111111;
+    --theme-panel: #1A1A1A;
+    --theme-panel-hover: #212121;
+    --theme-border: #333333;
+    --theme-text: #ececec;
+    --theme-muted: #9b9b9b;
+  }
+
   body {
     background-color: var(--color-ai-bg);
     color: var(--color-ai-text);
