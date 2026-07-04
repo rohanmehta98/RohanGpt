@@ -1,0 +1,314 @@
+# CHUNK_001 | PROFILE | rohan-mehta-identity
+---
+chunk_id: 001
+topic: personal_identity
+tags: [identity, name, contact, location, email, linkedin, github, phone]
+---
+
+## Personal Identity
+
+- **Full Name:** Rohan Mehta
+- **Email:** mehtarohan173@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/rohanmehtaa
+- **GitHub:** https://github.com/rohanmehta98
+- **Location:** Chandigarh, India
+
+---
+
+# CHUNK_002 | PROFILE | professional-summary
+---
+chunk_id: 002
+topic: professional_summary
+tags: [summary, GenAI, LLM, RAG, multi-agent, MCP, LangGraph, LLMOps, production-AI, deployment]
+---
+
+## Professional Summary
+
+GenAI Engineer with hands-on experience architecting and shipping production LLM systems, RAG pipelines, and multi-agent workflows.
+
+**Core Expertise:**
+- Model Context Protocol (MCP)
+- LangGraph agent orchestration
+- End-to-end AI deployment — from system design through containerised delivery
+- LLMOps monitoring and evaluation
+
+Proven ability to translate complex AI architectures into measurable business outcomes across diverse production environments.
+
+---
+
+# CHUNK_003 | SKILLS | languages
+---
+chunk_id: 003
+topic: programming_languages
+tags: [skills, python, SQL, bash, languages]
+---
+
+## Technical Skills — Languages
+
+- **Python**
+- **SQL**
+- **Bash**
+
+---
+
+# CHUNK_004 | SKILLS | ai-genai-frameworks
+---
+chunk_id: 004
+topic: ai_genai_frameworks
+tags: [skills, LangChain, LangGraph, LlamaIndex, MCP, OpenAI, Anthropic, Claude, HuggingFace, PEFT, LoRA, QLoRA, fine-tuning]
+---
+
+## Technical Skills — AI / GenAI Frameworks
+
+- LangChain
+- LangGraph
+- LlamaIndex
+- Model Context Protocol (MCP)
+- OpenAI API
+- Anthropic Claude API
+- Hugging Face Transformers
+- PEFT / LoRA / QLoRA (fine-tuning techniques)
+
+---
+
+# CHUNK_005 | SKILLS | rag-and-vector-dbs
+---
+chunk_id: 005
+topic: rag_and_vector_databases
+tags: [skills, RAG, Pinecone, Qdrant, ChromaDB, FAISS, RAGAS, vector-db, retrieval, embeddings]
+---
+
+## Technical Skills — RAG & Vector Databases
+
+- Retrieval-Augmented Generation (RAG)
+- **Vector Databases:** Pinecone, Qdrant, ChromaDB, FAISS
+- **Evaluation:** RAGAS (faithfulness, answer relevancy, context recall metrics)
+
+---
+
+# CHUNK_006 | SKILLS | mlops-and-deployment
+---
+chunk_id: 006
+topic: mlops_deployment
+tags: [skills, FastAPI, Docker, Streamlit, Git, LangSmith, Helicone, REST-API, deployment, MLOps]
+---
+
+## Technical Skills — MLOps & Deployment
+
+- FastAPI
+- Docker
+- Streamlit
+- Git
+- LangSmith
+- Helicone
+- REST APIs
+
+---
+
+# CHUNK_007 | SKILLS | cloud-and-infrastructure
+---
+chunk_id: 007
+topic: cloud_infrastructure
+tags: [skills, AWS, Bedrock, S3, Lambda, Google-Cloud, Vertex-AI, HuggingFace-Spaces, cloud]
+---
+
+## Technical Skills — Cloud & Infrastructure
+
+- **AWS:** Bedrock, S3, Lambda
+- **Google Cloud:** Vertex AI
+- **HuggingFace Spaces**
+
+---
+
+# CHUNK_008 | SKILLS | ai-ml-concepts
+---
+chunk_id: 008
+topic: ai_ml_concepts
+tags: [skills, prompt-engineering, fine-tuning, agentic-AI, multi-agent, embeddings, LLMOps, NLP]
+---
+
+## Technical Skills — AI/ML Concepts
+
+- Prompt Engineering
+- Fine-tuning
+- Agentic AI
+- Multi-Agent Systems
+- Embeddings
+- LLMOps
+- Natural Language Processing (NLP)
+
+---
+
+# CHUNK_009 | EXPERIENCE | bonn-nutrients-ai-engineer
+---
+chunk_id: 009
+topic: current_job_bnpl
+tags: [experience, AI-engineer, BNPL, Bonn-Nutrients, LangGraph, Qdrant, MCP, FastAPI, OpenAI, RAGAS, RAG, production, 2026]
+---
+
+## Experience — Bonn Nutrients Pvt Ltd (BNPL)
+
+- **Role:** AI Engineer
+- **Duration:** January 2026 – Present
+- **Location:** Chandigarh, India
+
+### Key Contributions
+
+- **Multi-Agent RAG Pipeline:** Architected a multi-agent RAG pipeline using LangGraph and Qdrant over internal product and supplier documentation — reducing manual query resolution time by ~40% for the operations team.
+
+- **MCP Server Integrations:** Designed and deployed MCP server integrations enabling LLM agents to interact with internal REST APIs and business databases — reducing average agent response latency by 30% through structured tool routing.
+
+- **GenAI Reporting Assistant:** Built a GenAI-powered reporting assistant using OpenAI API + FastAPI, automating weekly business summaries and eliminating 5+ hours/week of manual report generation.
+
+- **LLM Evaluation Pipelines:** Implemented RAGAS evaluation pipelines (faithfulness, answer relevancy, context recall) to monitor RAG quality in production — maintaining precision above 87% across document corpora.
+
+---
+
+# CHUNK_010 | EXPERIENCE | 10x-research-analyst
+---
+chunk_id: 010
+topic: data_science_research_analyst
+tags: [experience, data-science, research-analyst, SME, 10x, Streamlit, Python, dashboard, enrollment, satisfaction, dropout, 2024, 2025]
+---
+
+## Experience — 10x.in | AI/Data Science Research Analyst (SME)
+
+- **Role:** AI/Data Science Research Analyst (SME)
+- **Duration:** August 2024 – November 2025
+- **Location:** Noida, India
+
+### Key Contributions & Impact
+
+- Led data science content strategy and project design for international cohorts — correlated with a **35% increase in student enrollment** over two quarters.
+- Built a **Python + Streamlit at-risk student detection dashboard** using behavioral analytics, reducing cohort dropout rates by **25%** and enabling proactive instructor intervention.
+- Managed delivery of **10+ data science training modules** across time zones, sustaining a **95% satisfaction rate** across 300+ international students.
+
+---
+
+# CHUNK_011 | PROJECTS | mcp-multi-agent-business-assistant
+---
+chunk_id: 011
+topic: project_mcp_multi_agent
+tags: [project, MCP, LangGraph, FastAPI, Docker, OpenAI, multi-agent, Gmail, Google-Calendar, Notion, scheduling, production, 2026]
+---
+
+## Project — MCP-Powered Multi-Agent Business Assistant (2026)
+
+**Tech Stack:** LangGraph · MCP · FastAPI · Docker · OpenAI API
+
+### What It Does
+A production multi-agent system using Model Context Protocol (MCP) to connect LLM agents to Gmail, Google Calendar, and Notion APIs — autonomously drafting emails, scheduling meetings, and generating action-item summaries.
+
+### Technical Highlights
+- Deployed via **FastAPI + Docker**
+- Implements **tool-routing logic**, human-in-the-loop approval gates, and structured error handling
+- Reduced simulated executive scheduling overhead by **60%** in benchmark tests
+
+---
+
+# CHUNK_012 | PROJECTS | production-rag-with-evaluation
+---
+chunk_id: 012
+topic: project_rag_pipeline
+tags: [project, RAG, LlamaIndex, Qdrant, RAGAS, Streamlit, Python, chunking, reranking, Cohere, evaluation, 2025]
+---
+
+## Project — Production RAG System with Evaluation Pipeline (2025)
+
+**Tech Stack:** LlamaIndex · Qdrant · RAGAS · Streamlit · Python
+
+### What It Does
+A full-stack RAG pipeline over 500+ domain documents with adaptive chunking, semantic re-ranking (Cohere), and a hybrid dense-sparse retrieval strategy.
+
+### Technical Highlights
+- Achieved **91% faithfulness** on RAGAS benchmarks
+- Built an integrated **LLM evaluation dashboard (Streamlit)** tracking precision, recall, and answer relevancy across pipeline iterations
+- Enables data-driven prompt and retrieval optimization
+
+---
+
+# CHUNK_013 | PROJECTS | llm-finetuning-qlora-llama3
+---
+chunk_id: 013
+topic: project_llm_finetuning
+tags: [project, fine-tuning, QLoRA, Llama3, PEFT, HuggingFace, bitsandbytes, quantization, domain-specific, 2025]
+---
+
+## Project — Domain-Specific LLM Fine-Tuning: QLoRA on Llama 3 (2025)
+
+**Tech Stack:** PEFT · QLoRA · Hugging Face · bitsandbytes
+
+### What It Does
+Fine-tuned Llama 3 8B on a custom domain Q&A dataset using QLoRA (4-bit quantization) via Hugging Face PEFT.
+
+### Technical Highlights
+- Achieved **23% improvement** in domain-specific task accuracy vs the base model
+- Published fine-tuned adapter to **Hugging Face Hub**
+- Documented full training pipeline including dataset preparation, hyperparameter tuning, and inference optimization
+
+---
+
+# CHUNK_014 | EDUCATION | degrees
+---
+chunk_id: 014
+topic: education
+tags: [education, BTech, computer-science, mathematics, Chandigarh-University, MA, economics, IGNOU]
+---
+
+## Education
+
+### Chandigarh University
+- **Degree:** Bachelor of Engineering (BE)
+- **Field:** Mathematics and Computer Science
+- **Duration:** August 2020 – July 2024
+- **Location:** Chandigarh, India
+
+### Indira Gandhi National Open University (IGNOU)
+- **Degree:** Master of Arts (MA)
+- **Field:** Economics
+- **Duration:** August 2024 – August 2026 (In Progress)
+- **Location:** Delhi, India
+
+---
+
+# CHUNK_015 | CERTIFICATIONS | all-certifications
+---
+chunk_id: 015
+topic: certifications
+tags: [certifications, Spark, Databricks, computer-vision, Coursera, AI-engineering, Udemy, ML]
+---
+
+## Certifications & Recognition
+
+1. **Data Engineering and Machine Learning using Spark** — Databricks
+2. **Machine Learning for Computer Vision** — Coursera
+3. **AI Engineering Bootcamp** — Udemy
+
+---
+
+# CHUNK_016 | SUMMARY | rag-quick-reference
+---
+chunk_id: 016
+topic: rag_summary
+tags: [summary, quick-reference, all-in-one, recruiter, RAG, complete-profile]
+---
+
+## RAG Quick-Reference Summary
+
+This chunk is a single-shot summary for broad queries about Rohan Mehta.
+
+- **Name:** Rohan Mehta | **Location:** Chandigarh, India
+- **Email:** mehtarohan173@gmail.com
+- **Role:** GenAI / AI Engineer — currently at Bonn Nutrients Pvt Ltd (BNPL)
+- **Core Identity:** Production-focused GenAI engineer specialising in RAG pipelines, multi-agent systems, LLMOps, and MCP integrations
+- **Languages:** Python, SQL, Bash
+- **AI Frameworks:** LangChain, LangGraph, LlamaIndex, MCP, OpenAI API, Anthropic Claude API, HuggingFace, PEFT/LoRA/QLoRA
+- **Vector DBs:** Pinecone, Qdrant, ChromaDB, FAISS | **Evaluation:** RAGAS
+- **Deployment Stack:** FastAPI, Docker, Streamlit, LangSmith, Helicone, REST APIs
+- **Cloud:** AWS (Bedrock, S3, Lambda), Google Cloud (Vertex AI), HuggingFace Spaces
+- **Key Metrics:** 40% query resolution time reduction, 30% latency reduction, 87%+ RAG precision, 91% RAGAS faithfulness, 23% LLM accuracy improvement, 60% scheduling overhead reduction
+- **Education:** B.E. Mathematics & CS — Chandigarh University (2024); MA Economics — IGNOU (ongoing)
+- **Certifications:** Spark/ML (Databricks), Computer Vision ML (Coursera), AI Engineering Bootcamp (Udemy)
+
+---
+*Source: Rohan Mehta — AI Resume PDF | Generated: May 2026*
