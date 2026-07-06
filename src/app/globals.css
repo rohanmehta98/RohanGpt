@@ -2,42 +2,144 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-ai-bg: #111111;
-  --color-ai-panel: #1A1A1A;
-  --color-ai-panel-hover: #212121;
-  --color-ai-border: #333333;
+  /* Fonts — Geist for UI, Geist Mono for metrics/code/IDs */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Surface + text tokens (mapped to light/dark values below) */
+  --color-ai-bg: var(--theme-bg);
+  --color-ai-panel: var(--theme-panel);
+  --color-ai-panel-hover: var(--theme-panel-hover);
+  --color-ai-border: var(--theme-border);
+  --color-ai-text: var(--theme-text);
+  --color-ai-muted: var(--theme-muted);
+
+  /* Brand accent — a single accent, used consistently */
   --color-ai-primary: #10a37f;
   --color-ai-primary-hover: #1a7f64;
-  --color-ai-text: #ececec;
-  --color-ai-muted: #9b9b9b;
+  --color-ai-accent: #22d3ee; /* cyan secondary, for gradients only */
+
+  --radius: 0.75rem;
 }
 
 @layer base {
+  :root {
+    --theme-bg: #fbfbfa;
+    --theme-panel: #ffffff;
+    --theme-panel-hover: #f2f2f0;
+    --theme-border: #e7e7e4;
+    --theme-text: #0d0d0d;
+    --theme-muted: #63635e;
+    --glow-1: rgba(16, 163, 127, 0.10);
+    --glow-2: rgba(34, 211, 238, 0.08);
+    --grid-line: rgba(0, 0, 0, 0.025);
+  }
+
+  .dark {
+    --theme-bg: #0a0a0b;
+    --theme-panel: #141416;
+    --theme-panel-hover: #1c1c20;
+    --theme-border: #26262b;
+    --theme-text: #ededed;
+    --theme-muted: #9a9aa2;
+    --glow-1: rgba(16, 163, 127, 0.14);
+    --glow-2: rgba(34, 211, 238, 0.10);
+    --grid-line: rgba(255, 255, 255, 0.022);
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
   body {
     background-color: var(--color-ai-bg);
     color: var(--color-ai-text);
+    font-family: var(--font-sans);
+    position: relative;
+  }
+
+  /* Premium ambient background: soft brand glows + faint grid, fixed behind content */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 60rem at 15% -10%, var(--glow-1), transparent 60%),
+      radial-gradient(50rem 50rem at 100% 0%, var(--glow-2), transparent 55%),
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-ai-primary) 28%, transparent);
+    color: var(--color-ai-text);
   }
 }
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+
+@utility gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-ai-primary),
+    #2dd4bf 45%,
+    var(--color-ai-accent)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background-color: color-mix(in srgb, var(--color-ai-panel) 72%, transparent);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+@utility card-ring {
+  box-shadow:
+    0 1px 0 0 color-mix(in srgb, var(--color-ai-text) 4%, transparent) inset,
+    0 12px 40px -12px rgba(0, 0, 0, 0.35);
+}
+
+/* Numeric/metric text uses the mono face for a technical, premium feel */
+@utility tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Scrollbars ────────────────────────────────────────────────────────── */
 
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--color-ai-border) transparent;
 }
-
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 7px;
+  height: 7px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-ai-border);
   border-radius: 10px;
 }
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-ai-muted);
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
 
 @keyframes shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
+}
+
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
