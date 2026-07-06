@@ -1,0 +1,220 @@
+# CHUNK_001 | PROFILE | rohan-mehta-identity
+---
+chunk_id: 001
+topic: personal_identity
+tags: [identity, name, contact, location, email, linkedin, phone]
+---
+
+## Personal Identity
+
+- **Full Name:** Rohan Mehta
+- **Current Role:** AI/ML Engineer @ BNPL (Bonn Nutrients Pvt Ltd)
+- **Location:** Chandigarh, India (based in Delhi)
+- **Email:** mehtarohan173@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/rohanmehtaa
+
+---
+
+# CHUNK_002 | PROFILE | rohan-mehta-summary
+---
+chunk_id: 002
+topic: professional_summary
+tags: [summary, bio, AI, software-engineering, backend, LLM, RAG, goals]
+---
+
+## Professional Summary
+
+B.Tech graduate with a strong interest in Artificial Intelligence and Software Engineering. Rohan enjoys building practical, scalable applications by combining AI models with solid backend and software fundamentals.
+
+**Core Focus Areas:**
+- AI-powered systems and production-ready AI
+- Problem-solving and continuous learning
+- Hands-on experience with modern tools, APIs, and development workflows
+
+**Career Goal:** Actively seeking opportunities to grow as an AI Engineer / Software Engineer and contribute to impactful technology solutions.
+
+---
+
+# CHUNK_003 | SKILLS | top-skills
+---
+chunk_id: 003
+topic: top_skills
+tags: [skills, MCP, AI-engineering, LLM, model-context-protocol, large-language-models]
+---
+
+## Top Skills
+
+- **Model Context Protocol (MCP)**
+- **AI Engineering**
+- **Large Language Models (LLM)**
+
+---
+
+# CHUNK_004 | EXPERIENCE | bonn-nutrients-ai-engineer
+---
+chunk_id: 004
+topic: current_job
+tags: [experience, AI-engineer, BNPL, Bonn-Nutrients, current, 2026, production-AI]
+---
+
+## Experience — Bonn Nutrients Pvt Ltd (BNPL)
+
+- **Role:** AI Engineer
+- **Duration:** January 2026 – Present (5 months)
+- **Location:** India
+- **Type:** Current Position
+
+Rohan is currently working as an AI Engineer at Bonn Nutrients Pvt Ltd, building and deploying production-ready AI systems.
+
+---
+
+# CHUNK_005 | EXPERIENCE | gen-ai-sme
+---
+chunk_id: 005
+topic: gen_ai_sme_role
+tags: [experience, generative-AI, SME, teaching, LLM, RAG, bootcamp, curriculum, 2025, Physics-Wallah, Newton-School]
+---
+
+## Experience — Gen AI Subject Matter Expert (SME)
+
+- **Clients:** Physics Wallah | Newton School of Technology | MBCIE | Corporate Clients
+- **Duration:** September 2025 – December 2025 (4 months)
+- **Location:** India
+
+### Responsibilities
+
+- **Curriculum Design:** Developed and delivered advanced Generative AI curricula for top-tier ed-tech platforms and corporate partners.
+- **Expert Training:** Conducted high-impact bootcamps for industry professionals focusing on practical implementation of LLMs, RAG architectures, and AI-native workflows.
+- **Technical Instruction:** Simplified complex AI concepts into hands-on modules, empowering developers and leaders to integrate agents and automation into production environments.
+- **Content Strategy:** Authored end-to-end technical documentation and lecture series, bridging the gap between cutting-edge AI research and real-world application.
+
+---
+
+# CHUNK_006 | EXPERIENCE | 10x-research-analyst
+---
+chunk_id: 006
+topic: research_analyst_role
+tags: [experience, data-science, research-analyst, SME, 10x, training, dashboard, enrollment, 2024, 2025]
+---
+
+## Experience — 10x.in | Research Analyst (SME)
+
+- **Role:** Research Analyst (Subject Matter Expert)
+- **Duration:** October 2024 – July 2025 (10 months)
+- **Location:** Noida, India
+
+### Key Achievements & Responsibilities
+
+- Led data science operations and content strategy, designing and delivering data science projects and training materials — contributed to a **35% increase in student enrollment**.
+- Managed and optimised strategy for data science training classes, maintaining a **95% student satisfaction rate** across international cohorts.
+- Implemented scalable workflows and built a dashboard to flag at-risk students, **reducing dropouts by 25%**.
+
+---
+
+# CHUNK_007 | EXPERIENCE | outlier-prompt-engineer
+---
+chunk_id: 007
+topic: prompt_engineer_role
+tags: [experience, prompt-engineering, AI-trainer, chatbot, evaluation, RLHF, Outlier, 2024]
+---
+
+## Experience — Outlier | Prompt Engineer (AI Language Trainer)
+
+- **Role:** Prompt Engineer / AI Language Trainer
+- **Duration:** April 2024 – August 2024 (5 months)
+- **Location:** United States (Remote)
+
+### Responsibilities
+
+- Shaped the next generation of AI by evaluating and ranking chatbot responses.
+- Evaluated chatbot responses to user queries and prompts for accuracy, relevance, and helpfulness.
+- Compared multiple responses to the same query and determined which was superior.
+- Provided detailed justifications for evaluations, explaining preference rationale — core RLHF-style feedback work.
+
+---
+
+# CHUNK_008 | EXPERIENCE | xenonstack-software-engineer
+---
+chunk_id: 008
+topic: software_engineer_role
+tags: [experience, software-engineering, XenonStack, associate, 2024, Punjab]
+---
+
+## Experience — XenonStack | Associate Software Engineer
+
+- **Role:** Associate Software Engineer
+- **Duration:** January 2024 – February 2024 (2 months)
+- **Location:** Mohali District, Punjab, India
+
+Early software engineering role at XenonStack, a technology consulting firm.
+
+---
+
+# CHUNK_009 | EDUCATION | degrees-and-courses
+---
+chunk_id: 009
+topic: education
+tags: [education, BTech, computer-science, mathematics, Chandigarh-University, MA, economics, IGNOU, data-analytics]
+---
+
+## Education
+
+### Chandigarh University
+- **Degree:** Bachelor of Engineering (BE)
+- **Field:** Mathematics and Computer Science
+- **Duration:** August 2020 – July 2024
+
+### Indira Gandhi National Open University (IGNOU), Delhi
+- **Degree:** Master of Arts (MA)
+- **Field:** Economics
+- **Duration:** August 2024 – August 2026 (In Progress)
+
+### Analytics Shiksha
+- **Program:** Data Analytics
+- **Duration:** August 2024 – December 2024
+
+---
+
+# CHUNK_010 | CERTIFICATIONS | all-certifications
+---
+chunk_id: 010
+topic: certifications
+tags: [certifications, algorithms, data-engineering, spark, computer-vision, machine-learning, data-mining]
+---
+
+## Certifications
+
+1. **Algorithmic Toolbox**
+2. **Data Engineering and Machine Learning using Spark**
+3. **Introduction to Computer Vision**
+4. **Machine Learning for Computer Vision**
+5. **Data Mining**
+
+---
+
+# CHUNK_011 | SUMMARY | rag-quick-reference
+---
+chunk_id: 011
+topic: rag_summary
+tags: [summary, quick-reference, all-in-one, recruiter, RAG, complete-profile]
+---
+
+## RAG Quick-Reference Summary
+
+This chunk is a single-shot summary for broad queries about Rohan Mehta.
+
+- **Name:** Rohan Mehta | **Location:** Chandigarh/Delhi, India
+- **Email:** mehtarohan173@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/rohanmehtaa
+- **Current Role:** AI Engineer at Bonn Nutrients Pvt Ltd (BNPL) — since January 2026
+- **Background:** B.Tech in Mathematics & Computer Science (Chandigarh University, 2024); MA Economics at IGNOU (ongoing)
+- **Top Skills:** Model Context Protocol (MCP), AI Engineering, Large Language Models (LLM)
+- **AI Expertise:** RAG architectures, LLM integration, AI-native workflows, prompt engineering, agentic systems
+- **Teaching Experience:** Delivered GenAI bootcamps to industry professionals (Physics Wallah, Newton School, corporate clients)
+- **Data Science Impact:** 35% enrollment increase, 95% satisfaction rate, 25% dropout reduction at 10x.in
+- **Prompt Engineering:** Worked at Outlier (US-based) evaluating and ranking AI chatbot responses (RLHF-style)
+- **Certifications:** Algorithms, Spark, Computer Vision, ML for CV, Data Mining
+- **Goal:** Build production-ready, scalable AI systems as an AI Engineer / Software Engineer
+
+---
+*Source: Rohan Mehta — LinkedIn Profile PDF | Generated: May 2026*

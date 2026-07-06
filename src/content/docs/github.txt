@@ -1,0 +1,301 @@
+# CHUNK_001 | PROFILE | rohan-mehta-identity
+---
+chunk_id: 001
+topic: developer_profile
+tags: [identity, name, github, location, bio]
+---
+
+## Developer Identity
+
+- **Name:** Rohan Mehta
+- **GitHub Username:** rohanmehta98
+- **GitHub URL:** https://github.com/rohanmehta98
+- **GitHub User ID:** 54761819
+- **Location:** India
+- **Public Repositories:** 7
+- **Followers:** 0 | **Following:** 1
+
+**Bio:**
+Rohan Mehta is a passionate computer science graduate who thrives on transforming innovative ideas into robust, user-friendly solutions. He has a solid foundation in Computer Science and Engineering (CSE) and focuses on building AI-powered applications and data-driven projects that solve real-world problems.
+
+---
+
+# CHUNK_002 | PROFILE | github-achievements
+---
+chunk_id: 002
+topic: github_achievements
+tags: [achievements, collaboration, pull-requests, github]
+---
+
+## GitHub Achievements
+
+### Pair Extraordinaire
+Awarded for co-authoring commits with other developers. Demonstrates strong collaboration and pair-programming skills.
+
+### Pull Shark
+Awarded for having pull requests successfully merged by other users. Indicates active participation in collaborative, PR-based development workflows.
+
+---
+
+# CHUNK_003 | REPOSITORIES | repo-overview
+---
+chunk_id: 003
+topic: repositories_overview
+tags: [repositories, projects, summary]
+---
+
+## Repositories Overview
+
+Rohan Mehta has **7 public repositories** on GitHub. Two are pinned as flagship projects:
+
+1. **RohanGpt** — AI-powered interactive portfolio (TypeScript / Next.js)
+2. **Netflix-Data-Analysis** — Data analysis project (Python / Jupyter Notebook)
+
+Both repos are on the `main` branch with no open issues or pull requests currently.
+
+---
+
+# CHUNK_004 | PROJECT | rohangpt-overview
+---
+chunk_id: 004
+topic: rohangpt_project
+tags: [rohangpt, AI, portfolio, nextjs, typescript, conversational-AI]
+---
+
+## Project: RohanGpt
+
+- **Repository URL:** https://github.com/rohanmehta98/RohanGpt
+- **Visibility:** Public
+- **Stars:** 0 | **Forks:** 0
+- **Commits:** 7
+- **Branch:** main
+
+### Description
+RohanGPT is an AI-powered portfolio that presents Rohan's profile in an interactive conversational interface. It allows recruiters to engage with a conversational model trained on his skills, projects, and experience — replacing traditional static resumes with real-time, context-aware answers about his expertise and problem-solving approach.
+
+### Purpose
+The app is designed specifically for recruiter interaction. Instead of reading a resume, recruiters can ask questions and get intelligent, contextual responses about Rohan's background, skills, and projects.
+
+---
+
+# CHUNK_005 | PROJECT | rohangpt-tech-stack
+---
+chunk_id: 005
+topic: rohangpt_technology
+tags: [typescript, nextjs, react, html, css, javascript, python, vercel, npm]
+---
+
+## RohanGpt — Technology Stack
+
+| Language / Tool     | Share   |
+|---------------------|---------|
+| TypeScript          | 45.2%   |
+| HTML                | 38.3%   |
+| Python              | 13.5%   |
+| CSS                 | 2.1%    |
+| JavaScript          | 0.9%    |
+
+- **Framework:** Next.js (bootstrapped with `create-next-app`)
+- **Font:** Geist via `next/font` (Vercel's font family)
+- **Linting:** ESLint (`eslint.config.mjs`)
+- **CSS Processing:** PostCSS (`postcss.config.mjs`)
+- **Type Checking:** TypeScript strict mode (`tsconfig.json`)
+- **Package Manager:** npm (`package-lock.json`)
+- **Deployment Platform:** Vercel
+
+---
+
+# CHUNK_006 | PROJECT | rohangpt-file-structure
+---
+chunk_id: 006
+topic: rohangpt_structure
+tags: [file-structure, nextjs, source-code, agents, public, src]
+---
+
+## RohanGpt — File & Directory Structure
+
+| File / Directory        | Purpose                                              |
+|-------------------------|------------------------------------------------------|
+| `.agents/`              | Agent configuration directory for AI tooling         |
+| `graphify-out/`         | Graph and visualization output directory             |
+| `public/`               | Static assets served by Next.js                      |
+| `src/`                  | Main application source code                         |
+| `AGENTS.md`             | Instructions for AI coding agents on this repo       |
+| `README.md`             | Project documentation                                |
+| `next.config.ts`        | Next.js configuration                                |
+| `package.json`          | Dependencies and npm scripts                         |
+| `tsconfig.json`         | TypeScript compiler configuration                    |
+| `eslint.config.mjs`     | ESLint rules                                         |
+| `postcss.config.mjs`    | PostCSS configuration                                |
+
+---
+
+# CHUNK_007 | PROJECT | rohangpt-run-commands
+---
+chunk_id: 007
+topic: rohangpt_setup
+tags: [setup, dev-server, run, npm, yarn, pnpm, bun, localhost]
+---
+
+## RohanGpt — Setup & Run Instructions
+
+To run the development server locally:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open `http://localhost:3000` in your browser to see the app.
+
+- **Main entry point:** `app/page.tsx`
+- **Auto-reloads** on file changes.
+
+---
+
+# CHUNK_008 | PROJECT | rohangpt-agents-note
+---
+chunk_id: 008
+topic: rohangpt_agents_instructions
+tags: [agents, nextjs, AI-tooling, breaking-changes, codegen]
+---
+
+## RohanGpt — AGENTS.md (AI Coding Agent Note)
+
+The `AGENTS.md` file contains a critical warning for any AI coding agent working on this repository:
+
+> "This is NOT the Next.js you know. This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices."
+
+**Key implication:** The Next.js version in this project uses non-standard or updated APIs that differ from typical training data. Always read the in-repo docs before generating any code for this project.
+
+---
+
+# CHUNK_009 | PROJECT | netflix-analysis-overview
+---
+chunk_id: 009
+topic: netflix_analysis_project
+tags: [netflix, data-analysis, python, jupyter, EDA, business-insights]
+---
+
+## Project: Netflix-Data-Analysis
+
+- **Repository URL:** https://github.com/rohanmehta98/Netflix-Data-Analysis
+- **Visibility:** Public
+- **Language:** Jupyter Notebook (100%)
+- **Stars:** 0 | **Forks:** 0 | **Watchers:** 1
+- **Commits:** 3
+- **Branch:** main
+- **Key File:** `Netflix_MasterClass.ipynb`
+
+### Description
+A Python-based Exploratory Data Analysis (EDA) project that analyzes Netflix's content catalog to generate actionable business insights and strategic recommendations for the platform.
+
+---
+
+# CHUNK_010 | PROJECT | netflix-analysis-findings
+---
+chunk_id: 010
+topic: netflix_data_findings
+tags: [EDA, data-analysis, insights, content-type, genre, duration, country, ratings]
+---
+
+## Netflix Analysis — Key Findings
+
+### Content Type
+- Movies significantly outnumber TV shows in the Netflix catalog.
+- Distribution of titles by type clearly shows a movie-heavy platform.
+
+### Content Growth
+- The number of titles released per year has grown substantially, especially in the last decade.
+
+### Geographic Distribution
+- The USA dominates content production, followed by other countries — indicating clear production hubs.
+
+### Ratings Distribution
+- Various ratings (G, PG, PG-13, R, TV-MA, etc.) appear across both movies and TV shows.
+
+### Movie Durations
+- Most movies fall in the 80–120 minute range.
+
+### Top Genres
+1. Drama
+2. Comedy
+3. Documentaries
+
+### Actor & Director Analysis
+- Identified the top 10 actors and directors most frequently featured in Netflix content.
+- Popular collaborators can directly influence viewership and subscriber growth.
+
+---
+
+# CHUNK_011 | PROJECT | netflix-analysis-recommendations
+---
+chunk_id: 011
+topic: netflix_business_recommendations
+tags: [business-strategy, recommendations, content-strategy, investment, diversification]
+---
+
+## Netflix Analysis — Business Recommendations
+
+1. **Increase Series Content** — Balance the movie-heavy catalog by producing and acquiring more TV shows.
+2. **Invest in New Content** — Maintain consistent new releases to sustain and grow the subscriber base.
+3. **Diversify Geographically** — Acquire more titles from countries outside the USA for a global audience.
+4. **Focus on Popular Genres** — Drama, Comedy, and Documentaries show the highest popularity and should receive continued investment.
+5. **Produce Short Films & Mini-Series** — Cater to viewers with limited time availability.
+6. **Collaborate with Popular Talent** — Leverage well-known actors and directors to attract their established fan bases.
+7. **Strategic Launch Timing** — Identify peak months for TV show viewership and schedule launches accordingly.
+8. **Sustain TV Show Growth** — A recent trend shows increasing demand for TV shows; maintain this investment focus.
+
+---
+
+# CHUNK_012 | SKILLS | technologies-and-stack
+---
+chunk_id: 012
+topic: skills_and_technologies
+tags: [skills, typescript, python, nextjs, jupyter, vercel, git, ESLint, data-analysis, AI]
+---
+
+## Skills & Technologies (Inferred from GitHub Activity)
+
+| Category          | Technologies / Tools                                         |
+|-------------------|--------------------------------------------------------------|
+| Languages         | TypeScript, Python, JavaScript, HTML, CSS                    |
+| Frameworks        | Next.js (React-based, App Router)                            |
+| AI / ML           | AI-powered conversational interfaces, RAG-style applications |
+| Data Analysis     | Python, Jupyter Notebook, Pandas, Matplotlib/Seaborn         |
+| Dev Tools         | ESLint, PostCSS, npm, Vercel                                 |
+| Version Control   | Git, GitHub (branching, PRs, commits, co-authoring)          |
+| Notebook Tech     | Jupyter Notebook (.ipynb format), Python data stack          |
+| Deployment        | Vercel (preferred for Next.js projects)                      |
+
+---
+
+# CHUNK_013 | SUMMARY | rag-quick-reference
+---
+chunk_id: 013
+topic: rag_summary
+tags: [summary, quick-reference, all-in-one, recruiter, RAG]
+---
+
+## RAG Quick-Reference Summary
+
+This chunk is a single-shot summary for broad queries about Rohan Mehta.
+
+- **Full Name:** Rohan Mehta | **GitHub:** rohanmehta98 | **Country:** India
+- **Background:** Computer Science graduate with a focus on AI-powered full-stack development and data analysis.
+- **Flagship Project 1 (RohanGPT):** AI-powered conversational portfolio app built with Next.js and TypeScript, deployed on Vercel. Replaces traditional resumes with an interactive AI interface for recruiters.
+- **Flagship Project 2 (Netflix Data Analysis):** Python/Jupyter Notebook EDA project analyzing Netflix's content strategy with data-backed business recommendations.
+- **Primary Languages:** TypeScript, Python, JavaScript, HTML, CSS.
+- **Frameworks & Tools:** Next.js, Vercel, ESLint, PostCSS, npm, Jupyter Notebook.
+- **AI/ML Interest:** Builds RAG-style and conversational AI interfaces from scratch.
+- **Data Skills:** Exploratory data analysis, visualization, business insight generation.
+- **Collaboration Style:** PR-based GitHub workflow; achievements in pair programming and open-source contribution.
+- **Total Public Repos:** 7 | **Pinned:** RohanGPT, Netflix-Data-Analysis.
+
+---
+*Source: https://github.com/rohanmehta98 | Generated: May 2026*
