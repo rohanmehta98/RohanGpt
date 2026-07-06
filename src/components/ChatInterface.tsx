@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import {
   Send, Menu, Code, Briefcase, MessageSquare, Sun, Moon,
-  Brain, Zap, Cpu, FolderGit2, User, X
+  Brain, Zap, Cpu, FolderGit2, User, X, Trash2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -20,11 +20,29 @@ type Message = {
   ragSources?: string[];
 };
 
-const SUGGESTED_PROMPTS = [
-  "What LLM systems have you built in production?",
-  "How do you use Model Context Protocol (MCP)?",
-  "How does your RAG architecture work?",
-  "Why should I hire you as an AI Engineer?",
+// A conversation groups all the messages of a single chat, ChatGPT-style.
+// A new one is created on the first message after "New Chat"; every later
+// question in that chat stays inside it instead of spawning a new entry.
+type Conversation = {
+  id: string;
+  title: string;
+  messages: Message[];
+  updatedAt: number;
+};
+
+const STORAGE_KEY = "rohangpt:conversations";
+
+// Two distinct starter surfaces, intentionally kept separate so they complement
+// each other instead of repeating the same canned prompts:
+//   • EXAMPLE_QUESTIONS → a few sample questions stacked beneath the welcome
+//     greeting on the empty state ("Try asking"), phrased to spark a conversation.
+//   • CHAT_TOPICS → stable topic categories in the sidebar ("Ask About") that
+//     act as always-available navigation into Rohan's main areas.
+const EXAMPLE_QUESTIONS = [
+  "What's the most impressive system you've shipped?",
+  "How do you keep an LLM's answers accurate and grounded?",
+  "What are you building at Bonn Nutrients right now?",
+  "What's a hard engineering problem you solved recently?",
 ];
 
 const CHAT_TOPICS = [
@@ -64,7 +82,7 @@ function GreetingAnimation() {
   const words = taglines[animationKey % taglines.length].split(" ");
 
   return (
-    <div className="flex flex-col items-center justify-center h-full pt-4 md:pt-10 pb-32 lg:pb-40">
+    <div className="flex flex-col items-center justify-center">
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -122,7 +140,9 @@ export default function ChatInterface() {
   const [streamingId, setStreamingId] = useState<string | null>(null); // message currently streaming
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);   // desktop collapse
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false); // mobile drawer
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -137,8 +157,43 @@ export default function ChatInterface() {
   }, [isDark]);
 
   useEffect(() => {
+    // Only auto-scroll once a chat is going — otherwise the empty-state welcome
+    // (avatar + animated tagline) gets scrolled out of view on load.
+    if (messages.length === 0) return;
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Load saved conversations once, on mount (client only — avoids SSR mismatch).
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setConversations(JSON.parse(raw));
+    } catch {
+      /* corrupt/unavailable storage — start fresh */
+    }
+    setLoaded(true);
+  }, []);
+
+  // Keep the active conversation in sync as its messages stream in; newest first.
+  useEffect(() => {
+    if (!activeId || messages.length === 0) return;
+    const firstUser = messages.find((m) => m.role === "user")?.content ?? "New chat";
+    const title = firstUser.length > 60 ? `${firstUser.slice(0, 60)}…` : firstUser;
+    setConversations((prev) => [
+      { id: activeId, title, messages, updatedAt: Date.now() },
+      ...prev.filter((c) => c.id !== activeId),
+    ]);
+  }, [messages, activeId]);
+
+  // Persist when idle — skip mid-stream so we don't rewrite localStorage per token.
+  useEffect(() => {
+    if (!loaded || streamingId !== null) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
+    } catch {
+      /* quota exceeded or storage disabled — ignore */
+    }
+  }, [conversations, streamingId, loaded]);
 
   const resetTextarea = () => {
     if (textareaRef.current) textareaRef.current.style.height = "auto";
@@ -149,7 +204,9 @@ export default function ChatInterface() {
 
     const userMessage: Message = { id: Date.now().toString(), role: "user", content: text.trim() };
 
-    setRecentSearches((prev) => (prev.includes(text.trim()) ? prev : [text.trim(), ...prev].slice(0, 10)));
+    // First message of a fresh chat starts a new conversation; otherwise this
+    // question continues whichever conversation is currently open.
+    if (!activeId) setActiveId(`conv-${Date.now()}`);
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     resetTextarea();
@@ -227,6 +284,23 @@ export default function ChatInterface() {
     }
   };
 
+  // Reopen a past conversation — loads its full thread back into the view.
+  const openConversation = (id: string) => {
+    const conv = conversations.find((c) => c.id === id);
+    if (!conv) return;
+    setActiveId(id);
+    setMessages(conv.messages);
+  };
+
+  // Remove a conversation; if it's the one on screen, drop back to a blank chat.
+  const deleteConversation = (id: string) => {
+    setConversations((prev) => prev.filter((c) => c.id !== id));
+    if (activeId === id) {
+      setActiveId(null);
+      setMessages([]);
+    }
+  };
+
   // Sidebar content, shared by the desktop rail and the mobile drawer.
   const renderSidebar = (onNavigate?: () => void) => {
     const go = (fn: () => void) => {
@@ -238,7 +312,7 @@ export default function ChatInterface() {
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => go(() => setMessages([]))}
+          onClick={() => go(() => { setMessages([]); setActiveId(null); })}
           className="flex items-center gap-2 p-3 w-full bg-ai-panel hover:bg-ai-panel-hover border border-ai-border rounded-xl text-sm font-medium transition-colors shadow-sm relative overflow-hidden group"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-ai-text/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -281,19 +355,32 @@ export default function ChatInterface() {
           ))}
 
           <p className="text-xs font-semibold text-ai-muted mt-6 mb-3 px-2 uppercase tracking-wider">Recents</p>
-          {recentSearches.length === 0 ? (
-            <p className="text-xs text-ai-muted px-2 italic">No recent searches...</p>
+          {conversations.length === 0 ? (
+            <p className="text-xs text-ai-muted px-2 italic">No conversations yet...</p>
           ) : (
-            recentSearches.map((prompt, i) => (
-              <motion.button
-                key={`recent-${i}`}
-                whileHover={{ x: 4 }}
-                onClick={() => go(() => handleSend(prompt))}
-                className="flex items-center gap-2 p-2 w-full hover:bg-ai-panel rounded-lg text-sm text-left transition-colors mb-1 truncate text-ai-text group"
+            conversations.map((conv) => (
+              <div
+                key={conv.id}
+                className={`group flex items-center rounded-lg mb-1 transition-colors ${activeId === conv.id ? "bg-ai-panel" : "hover:bg-ai-panel"}`}
               >
-                <MessageSquare size={13} className="text-ai-muted group-hover:text-ai-primary flex-shrink-0 transition-colors" />
-                <span className="truncate">{prompt}</span>
-              </motion.button>
+                <button
+                  onClick={() => go(() => openConversation(conv.id))}
+                  className="flex items-center gap-2 p-2 flex-1 min-w-0 text-sm text-left text-ai-text"
+                >
+                  <MessageSquare
+                    size={13}
+                    className={`flex-shrink-0 transition-colors ${activeId === conv.id ? "text-ai-primary" : "text-ai-muted group-hover:text-ai-primary"}`}
+                  />
+                  <span className="truncate">{conv.title}</span>
+                </button>
+                <button
+                  onClick={() => deleteConversation(conv.id)}
+                  aria-label="Delete conversation"
+                  className="p-1 mr-1 rounded-md text-ai-muted hover:text-red-400 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity flex-shrink-0"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
             ))
           )}
         </div>
@@ -340,11 +427,10 @@ export default function ChatInterface() {
 
   // Offer follow-ups under the latest completed answer (skip already-asked ones).
   const lastMsg = messages[messages.length - 1];
+  const askedInChat = messages.filter((m) => m.role === "user").map((m) => m.content.toLowerCase());
   const followUps =
     !isBusy && lastMsg?.role === "ai" && lastMsg.content.length > 0
-      ? FOLLOW_UPS.filter(
-          (q) => !recentSearches.some((r) => r.toLowerCase() === q.toLowerCase())
-        ).slice(0, 3)
+      ? FOLLOW_UPS.filter((q) => !askedInChat.includes(q.toLowerCase())).slice(0, 3)
       : [];
 
   return (
@@ -403,7 +489,6 @@ export default function ChatInterface() {
             <Menu size={24} />
           </button>
           <span className="font-medium ml-2">RohanGPT</span>
-          <span className="ml-2 text-xs text-ai-primary border border-ai-primary/30 rounded-full px-2 py-0.5">AI Engineer</span>
           <button onClick={() => setShowProfile(true)} className="ml-auto p-2 text-ai-muted hover:text-ai-primary transition-colors" aria-label="About Rohan">
             <User size={20} />
           </button>
@@ -439,7 +524,6 @@ export default function ChatInterface() {
                 </div>
               </motion.div>
               <span className="text-ai-text tracking-wide font-bold">RohanGPT</span>
-              <span className="text-xs font-medium text-ai-primary border border-ai-primary/30 rounded-full px-2 py-0.5 ml-1">AI Engineer</span>
             </div>
 
             <button
@@ -473,26 +557,26 @@ export default function ChatInterface() {
 
         {/* ── Messages ────────────────────────────────────────────────── */}
         <div className="flex-1 overflow-y-auto pb-32 pt-4 md:pt-16">
-          <div className="max-w-3xl mx-auto w-full px-4 flex flex-col gap-6">
+          <div className="max-w-3xl mx-auto w-full px-3 md:px-4 flex flex-col gap-6">
             {messages.map((m) => (
               <motion.div
                 key={m.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`flex gap-4 p-4 rounded-lg ${m.role === "user"
+                className={`flex gap-3 md:gap-4 p-3 md:p-4 rounded-lg ${m.role === "user"
                   ? "bg-ai-panel-hover ml-auto max-w-[85%] border border-ai-border"
                   : "bg-transparent mr-auto max-w-full"
                   }`}
               >
                 {m.role === "ai" && (
-                  <div className="w-8 h-8 rounded-full bg-ai-panel border border-ai-primary/30 flex items-center justify-center flex-shrink-0 mt-1 overflow-hidden shadow-sm shadow-ai-primary/20">
+                  <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-ai-panel border border-ai-primary/30 flex items-center justify-center flex-shrink-0 mt-1 overflow-hidden shadow-sm shadow-ai-primary/20">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="pic.jpeg?v=1" alt="RohanGPT" className="w-full h-full object-cover object-[center_10%]" />
                   </div>
                 )}
 
                 <div className="min-w-0 flex-1">
-                  <div className="prose dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-ai-panel prose-pre:border prose-pre:border-ai-border prose-strong:text-ai-primary prose-p:text-ai-text">
+                  <div className="prose dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-ai-panel prose-pre:border prose-pre:border-ai-border prose-strong:text-ai-primary prose-p:text-ai-text prose-ul:pl-5 prose-ol:pl-5 prose-ul:my-3 prose-ol:my-3 prose-li:my-1">
                     <ReactMarkdown>{m.content}</ReactMarkdown>
                     {/* Streaming caret */}
                     {m.id === streamingId && (
@@ -529,8 +613,8 @@ export default function ChatInterface() {
 
             {/* Typing indicator — only while awaiting the first token */}
             {isLoading && (
-              <div className="flex gap-4 p-4 rounded-lg bg-transparent mr-auto max-w-full">
-                <div className="w-8 h-8 rounded-full bg-ai-panel border border-ai-primary/30 flex items-center justify-center flex-shrink-0 mt-1 overflow-hidden shadow-sm shadow-ai-primary/20">
+              <div className="flex gap-3 md:gap-4 p-3 md:p-4 rounded-lg bg-transparent mr-auto max-w-full">
+                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-ai-panel border border-ai-primary/30 flex items-center justify-center flex-shrink-0 mt-1 overflow-hidden shadow-sm shadow-ai-primary/20">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="pic.jpeg?v=1" alt="" className="w-full h-full object-cover object-[center_10%]" />
                 </div>
@@ -569,7 +653,26 @@ export default function ChatInterface() {
               </motion.div>
             )}
 
-            {messages.length === 0 && <GreetingAnimation />}
+            {messages.length === 0 && (
+              <div className="flex flex-col items-center gap-6 md:gap-8 pt-2 md:pt-4">
+                <GreetingAnimation />
+                {!isBusy && (
+                  <div className="grid grid-cols-2 gap-2.5 md:gap-3 w-full max-w-2xl">
+                    {EXAMPLE_QUESTIONS.map((prompt, i) => (
+                      <motion.button
+                        key={i}
+                        whileHover={{ scale: 1.03, y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => handleSend(prompt)}
+                        className="glass hover:bg-ai-panel-hover border border-ai-border text-sm text-ai-text py-3 px-4 rounded-2xl transition-colors drop-shadow-sm hover:border-ai-primary/40 h-full flex items-center justify-center text-center"
+                      >
+                        {prompt}
+                      </motion.button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
         </div>
@@ -577,22 +680,6 @@ export default function ChatInterface() {
         {/* ── Input Area ──────────────────────────────────────────────── */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-ai-bg via-ai-bg to-transparent pt-10 pb-6 px-4">
           <div className="max-w-3xl mx-auto w-full relative">
-            {messages.length === 0 && !isBusy && (
-              <div className="flex flex-wrap gap-2 md:gap-3 justify-center mb-6">
-                {SUGGESTED_PROMPTS.map((prompt, i) => (
-                  <motion.button
-                    key={i}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => handleSend(prompt)}
-                    className="glass hover:bg-ai-panel-hover border border-ai-border text-sm text-ai-text py-2.5 px-5 rounded-full transition-colors drop-shadow-sm hover:border-ai-primary/40"
-                  >
-                    {prompt}
-                  </motion.button>
-                ))}
-              </div>
-            )}
-
             <div className="relative group p-[1.5px] rounded-[22px] bg-gradient-to-r from-ai-primary/40 via-ai-border to-cyan-500/25 shadow-[0_8px_30px_rgb(0,0,0,0.06)] focus-within:shadow-[0_10px_40px_-4px_rgba(16,163,127,0.25)] transition-all duration-300">
               <div className="flex items-end gap-2 glass rounded-[20px] p-1.5">
                 <textarea
