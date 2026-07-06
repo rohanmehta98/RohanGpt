@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#13b48c"/>
+      <stop offset="1" stop-color="#0d8f6d"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="url(#bg)"/>
+  <rect x="0.5" y="0.5" width="511" height="511" rx="120" ry="120" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="3"/>
+  <g fill="#ffffff">
+    <!-- stem -->
+    <rect x="170" y="131" width="64" height="250" rx="12"/>
+    <!-- bowl (top loop, stadium end) -->
+    <rect x="170" y="131" width="176" height="128" rx="64"/>
+    <!-- diagonal leg -->
+    <path d="M232 238 L292 238 L352 381 L292 381 Z"/>
+  </g>
+  <!-- counter (punched hole in the bowl, same as background gradient) -->
+  <rect x="240" y="171" width="70" height="48" rx="24" fill="url(#bg)"/>
+</svg>
