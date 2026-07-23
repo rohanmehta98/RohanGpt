@@ -237,7 +237,7 @@ export default function ChatInterface() {
       const mode = res.headers.get("X-RAG-Mode");
       if (mode === "semantic" || mode === "keyword") setRagMode(mode);
 
-      // Real token streaming from Gemini.
+      // Real token streaming from Groq.
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let currentText = "";
@@ -540,10 +540,10 @@ export default function ChatInterface() {
             className="pointer-events-auto flex items-center gap-1.5 text-xs text-ai-muted border border-ai-border rounded-full px-3 py-1.5 glass"
             title={
               ragMode === "semantic"
-                ? "Semantic retrieval via Gemini embeddings (with TF-IDF fallback)"
+                ? "Semantic retrieval active"
                 : ragMode === "keyword"
-                ? "Keyword retrieval (TF-IDF fallback active)"
-                : "Retrieval-augmented — grounded in Rohan's real documents + live GitHub"
+                  ? "Keyword retrieval (TF-IDF)"
+                  : "Retrieval-augmented — grounded in Rohan's real documents + live GitHub"
             }
           >
             <motion.div
