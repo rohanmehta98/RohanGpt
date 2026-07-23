@@ -3,8 +3,8 @@
  *
  * Server-side only (uses Node `fs`). Docs live OUTSIDE public/ so they are never
  * served as downloadable URLs. The index is built once per server process and
- * cached in memory. Embeddings are attempted via Gemini; on failure the index
- * falls back to TF-IDF automatically (see ragEngine.ts).
+ * cached in memory using TF-IDF keyword retrieval (fast, dependency-free, works
+ * on Vercel without any external embedding API calls).
  *
  * To add knowledge: drop a new .txt/.md file into src/content/docs/ — auto-discovered.
  */
@@ -12,7 +12,6 @@
 import fs from "fs";
 import path from "path";
 import { RAGIndex } from "./ragEngine";
-import { createGeminiEmbedder } from "./embeddings";
 
 const SOURCE_LABELS: Record<string, string> = {
   "resume.txt": "Resume",
@@ -49,8 +48,9 @@ export async function buildRAGIndex(): Promise<RAGIndex> {
     console.warn("[RAG] No documents found in src/content/docs/.");
   }
 
-  const embedder = createGeminiEmbedder(process.env.GEMINI_API_KEY);
-  await index.build(embedder);
+  // Build with TF-IDF only (no embedder — Groq does not provide an embeddings API).
+  // The RAGIndex gracefully falls back to keyword retrieval when no embedder is passed.
+  await index.build();
 
   console.log(
     `[RAG] Index built: ${index.size} chunks from ${filesLoaded} documents ` +

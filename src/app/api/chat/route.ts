@@ -2,23 +2,23 @@
  * /api/chat — RAG-Augmented, Streaming Chat API
  *
  * Flow:
- *  1. Retrieve top-k relevant chunks from the hybrid RAG index (embeddings → TF-IDF fallback).
+ *  1. Retrieve top-k relevant chunks from the hybrid RAG index (TF-IDF keyword search).
  *  2. Fetch Rohan's live GitHub repositories (cached ~1h) so new repos appear automatically.
  *  3. Inject retrieved context + structured profile + live repos into the system prompt.
- *  4. Stream Gemini's response token-by-token back to the client.
+ *  4. Stream Groq's response token-by-token back to the client.
  *
  * RAG source labels + retrieval mode are returned via response headers so the
  * client can show them without blocking the stream.
  */
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 import { portfolioData } from "@/data/portfolioData";
 import { getRAGIndex } from "@/lib/documentLoader";
 import { getGitHubRepos, formatReposForContext } from "@/lib/github";
 import { NextRequest, NextResponse } from "next/server";
 
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey || "");
+const apiKey = process.env.GROQ_API_KEY;
+const groq = new Groq({ apiKey: apiKey || "" });
 
 interface ChatMessage {
   role: "user" | "ai";
@@ -33,11 +33,9 @@ export const maxDuration = 30;
 const MAX_QUERY_CHARS = 2000;
 const MAX_MESSAGES = 40;
 const MAX_HISTORY_CHARS = 1000; // cap each prior turn injected as history
-const MIN_SEMANTIC_SCORE = 0.35; // dense-cosine relevance floor (TF-IDF path uses > 0)
 
 // Basic per-IP rate limit. In-memory, so it's per warm serverless instance —
-// enough to stop casual spam / runaway cost. For strict global limits, back
-// this with Vercel KV / Upstash Redis.
+// enough to stop casual spam / runaway cost.
 const RATE_WINDOW_MS = 60_000;
 const RATE_MAX = 20;
 const hits = new Map<string, { count: number; reset: number }>();
@@ -58,7 +56,7 @@ function rateLimited(ip: string): boolean {
 
 export async function POST(req: NextRequest) {
   if (!apiKey || apiKey === "your_api_key_here") {
-    console.error("[Chat API] GEMINI_API_KEY is not configured.");
+    console.error("[Chat API] GROQ_API_KEY is not configured.");
     return NextResponse.json(
       { error: "The assistant is temporarily unavailable. Please try again later." },
       { status: 503 }
@@ -93,11 +91,8 @@ export async function POST(req: NextRequest) {
       getGitHubRepos(),
     ]);
 
-    // Mode-aware relevance floor. Dense cosine needs a real threshold; the
-    // TF-IDF fallback legitimately uses > 0. Cited sources are built from the
-    // SAME filtered set actually injected into context (honest attribution).
-    const minScore = ragIndex.mode === "semantic" ? MIN_SEMANTIC_SCORE : 0;
-    const relevant = retrieved.filter((r) => r.score > minScore);
+    // TF-IDF keyword retrieval: use score > 0 as relevance floor.
+    const relevant = retrieved.filter((r) => r.score > 0);
 
     let ragContext = "";
     if (relevant.length > 0) {
@@ -112,16 +107,16 @@ export async function POST(req: NextRequest) {
     const sources = [...new Set(relevant.map((r) => r.chunk.sourceLabel))];
     if (repos.length > 0) sources.push("GitHub (live)");
 
-    // ── Conversation history as native Gemini turns (last 6, each capped) ─────
-    // Gemini requires history to start with a user turn and alternate.
-    const history = messages
+    // ── Conversation history as Groq-compatible turns (last 6, each capped) ──
+    const history: Array<{ role: "user" | "assistant"; content: string }> = messages
       .slice(0, -1)
       .slice(-6)
       .map((m) => ({
-        role: m.role === "ai" ? "model" : "user",
-        parts: [{ text: (m.content || "").slice(0, MAX_HISTORY_CHARS) }],
+        role: m.role === "ai" ? "assistant" : "user",
+        content: (m.content || "").slice(0, MAX_HISTORY_CHARS),
       }));
-    while (history.length && history[0].role === "model") history.shift();
+    // Ensure history starts with a user turn
+    while (history.length && history[0].role === "assistant") history.shift();
 
     // ── 3. System prompt ─────────────────────────────────────────────────────
     const p = portfolioData;
@@ -187,42 +182,38 @@ RESPONSE GUIDELINES
 6. **For "why hire Rohan"**, highlight the combination of shipping production LLM systems, evaluation/LLMOps rigor, and communicating AI clearly (teaching + docs).
 7. **For live GitHub questions**, reference the real repositories listed above.
 8. **For contact/hiring**, share his links and encourage reaching out.
-9. **If asked how you work**: explain you're a RAG-grounded assistant built on Next.js + Gemini, retrieving from Rohan's resume/LinkedIn/GitHub using a hybrid retriever (Gemini \`gemini-embedding-001\` semantic search with a from-scratch TF-IDF keyword fallback), streaming responses token-by-token, plus a live GitHub API feed so new repos show up automatically.`;
+9. **If asked how you work**: explain you're a RAG-grounded assistant built on Next.js + Groq (llama-3.3-70b-versatile), retrieving from Rohan's resume/LinkedIn/GitHub using a TF-IDF keyword retriever, streaming responses token-by-token, plus a live GitHub API feed so new repos show up automatically.`;
 
-    // ── 4. Stream Gemini response ────────────────────────────────────────────
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      systemInstruction: systemPrompt,
-      generationConfig: {
-        temperature: 0.4,     // grounded + consistent for a factual advocate
-        topP: 0.95,
-        maxOutputTokens: 1400, // keeps answers focused and caps cost
-      },
+    // ── 4. Stream Groq response ───────────────────────────────────────────────
+    const groqMessages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
+      { role: "system", content: systemPrompt },
+      ...history,
+      { role: "user", content: userQuery },
+    ];
+
+    const groqStream = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: groqMessages,
+      temperature: 0.4,
+      max_tokens: 1400,
+      top_p: 0.95,
+      stream: true,
     });
 
-    const chat = model.startChat({ history });
-    const result = await chat.sendMessageStream(userQuery);
     const encoder = new TextEncoder();
-
     const stream = new ReadableStream<Uint8Array>({
       async start(controller) {
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text();
+          for await (const chunk of groqStream) {
+            const text = chunk.choices[0]?.delta?.content ?? "";
             if (text) controller.enqueue(encoder.encode(text));
           }
-          // Structured observability: one line per request with retrieval +
-          // token usage. Cheap, and the standard minimum for an LLM endpoint.
-          const usage = (await result.response).usageMetadata;
           console.log(
             JSON.stringify({
               evt: "chat",
               mode: ragIndex.mode,
               chunks: relevant.length,
               topScore: Number((relevant[0]?.score ?? 0).toFixed(3)),
-              promptTokens: usage?.promptTokenCount,
-              outputTokens: usage?.candidatesTokenCount,
-              totalTokens: usage?.totalTokenCount,
             })
           );
         } catch (err) {
@@ -243,7 +234,6 @@ RESPONSE GUIDELINES
       },
     });
   } catch (error: unknown) {
-    // Log the real detail server-side; never leak internals to the client.
     const detail = error instanceof Error ? error.message : "Unknown error";
     console.error("[Chat API] Error:", detail);
     return NextResponse.json(
