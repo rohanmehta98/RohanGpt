@@ -52,6 +52,78 @@ function tokenize(text: string): string[] {
     .filter((t) => t.length > 2 && !STOP_WORDS.has(t));
 }
 
+// ─── Query Expansion ──────────────────────────────────────────────────────────
+
+/**
+ * Recruiters ask questions in different words than a resume uses: "where did he
+ * study?" tokenizes to just ["study"], while the education chunk only ever says
+ * "Education", "Degree", "University". A pure TF-IDF retriever scores that pair
+ * at zero and returns nothing, so the answer silently loses its grounding.
+ *
+ * Expanding a small set of common question words into the vocabulary the
+ * documents actually use closes that gap without an embedding provider. Extra
+ * terms that appear in no chunk are harmless — they only add a little to the
+ * query vector's norm, which shifts every score equally and leaves the ranking
+ * untouched.
+ */
+const QUERY_SYNONYMS: Record<string, string[]> = {
+  // Education
+  study: ["education", "degree", "university"],
+  studied: ["education", "degree", "university"],
+  studies: ["education", "degree", "university"],
+  school: ["education", "university", "college"],
+  college: ["education", "university", "degree"],
+  university: ["education", "degree"],
+  academic: ["education", "degree"],
+  graduate: ["education", "degree", "university"],
+  graduated: ["education", "degree", "university"],
+  // Career / employment
+  job: ["experience", "role", "company"],
+  jobs: ["experience", "role", "company"],
+  work: ["experience", "role", "company"],
+  worked: ["experience", "role", "company"],
+  career: ["experience", "role", "company"],
+  employer: ["experience", "company", "role"],
+  background: ["experience", "education", "summary"],
+  history: ["experience", "role"],
+  journey: ["experience", "role"],
+  timeline: ["experience", "duration"],
+  // Skills / stack
+  stack: ["skills", "technologies", "framework"],
+  tech: ["skills", "technologies", "framework"],
+  tools: ["skills", "technologies", "framework"],
+  strength: ["skills", "expertise"],
+  strengths: ["skills", "expertise"],
+  expertise: ["skills"],
+  // Projects
+  built: ["project", "built", "developed"],
+  build: ["project", "developed"],
+  portfolio: ["project", "github"],
+  // Contact / hiring
+  contact: ["email", "linkedin", "github"],
+  reach: ["email", "linkedin", "contact"],
+  connect: ["email", "linkedin", "contact"],
+  hire: ["experience", "skills", "available"],
+  hiring: ["experience", "skills", "available"],
+  // Teaching
+  teach: ["teaching", "curriculum", "instructor", "mentor"],
+  teaches: ["teaching", "curriculum", "instructor"],
+  taught: ["teaching", "curriculum", "instructor"],
+  // Location
+  located: ["location", "based"],
+  live: ["location", "based"],
+  lives: ["location", "based"],
+};
+
+function expandQuery(tokens: string[]): string[] {
+  const expanded = [...tokens];
+  for (const token of tokens) {
+    const synonyms = QUERY_SYNONYMS[token];
+    if (synonyms) expanded.push(...synonyms);
+  }
+  return expanded;
+}
+
 // ─── TF-IDF Computation ───────────────────────────────────────────────────────
 
 function termFrequency(tokens: string[]): Map<string, number> {
@@ -276,8 +348,8 @@ export class RAGIndex {
       }
     }
 
-    // Keyword fallback.
-    const queryTFIDF = computeTFIDF(termFrequency(tokenize(query)), this.idf);
+    // Keyword fallback — expanded so recruiter phrasing still reaches the docs.
+    const queryTFIDF = computeTFIDF(termFrequency(expandQuery(tokenize(query))), this.idf);
     const scored = this.chunks.map((chunk) => ({
       chunk,
       score: sparseCosine(queryTFIDF, chunk.tfidf),

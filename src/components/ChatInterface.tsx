@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import dynamic from "next/dynamic";
 
 // Modals are only needed on demand — code-split them out of the initial bundle.
@@ -174,16 +175,18 @@ export default function ChatInterface() {
     setLoaded(true);
   }, []);
 
-  // Keep the active conversation in sync as its messages stream in; newest first.
+  // Keep the active conversation in sync; newest first. Like the persist effect
+  // below, this waits for the stream to finish: syncing per token would schedule a
+  // state update from inside every commit and trip React's nested-update guard.
   useEffect(() => {
-    if (!activeId || messages.length === 0) return;
+    if (!activeId || messages.length === 0 || streamingId !== null) return;
     const firstUser = messages.find((m) => m.role === "user")?.content ?? "New chat";
     const title = firstUser.length > 60 ? `${firstUser.slice(0, 60)}…` : firstUser;
     setConversations((prev) => [
       { id: activeId, title, messages, updatedAt: Date.now() },
       ...prev.filter((c) => c.id !== activeId),
     ]);
-  }, [messages, activeId]);
+  }, [messages, activeId, streamingId]);
 
   // Persist when idle — skip mid-stream so we don't rewrite localStorage per token.
   useEffect(() => {
@@ -213,6 +216,9 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     const aiMessageId = `ai-${Date.now()}`;
+    // Captured outside the try so the catch can tell a real API explanation
+    // (rate limit, misconfig) apart from a genuine network failure.
+    let serverMessage = "";
 
     try {
       const res = await fetch("/api/chat", {
@@ -223,7 +229,8 @@ export default function ChatInterface() {
 
       if (!res.ok || !res.body) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || `Request failed (${res.status})`);
+        if (typeof data.error === "string" && data.error) serverMessage = data.error;
+        throw new Error(serverMessage || `Request failed (${res.status})`);
       }
 
       // RAG metadata rides in headers so it's available before the stream.
@@ -275,7 +282,9 @@ export default function ChatInterface() {
         {
           id: `err-${Date.now()}`,
           role: "ai",
-          content: "⚠️ Sorry — I couldn't reach my model just now. Please try again in a moment.",
+          // Prefer what the API actually said; the generic line is only for
+          // cases where the request never reached it at all.
+          content: `⚠️ ${serverMessage || "Sorry — I couldn't reach my model just now. Please try again in a moment."}`,
         },
       ]);
     } finally {
@@ -577,7 +586,26 @@ export default function ChatInterface() {
 
                 <div className="min-w-0 flex-1">
                   <div className="prose dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-ai-panel prose-pre:border prose-pre:border-ai-border prose-strong:text-ai-primary prose-p:text-ai-text prose-ul:pl-5 prose-ol:pl-5 prose-ul:my-3 prose-ol:my-3 prose-li:my-1">
-                    <ReactMarkdown>{m.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // GFM tables can be wider than the bubble on mobile —
+                        // give each its own horizontal scroller so the page
+                        // itself never scrolls sideways.
+                        table: ({ children }) => (
+                          <div className="overflow-x-auto -mx-1 px-1 my-3">
+                            <table className="w-full text-sm">{children}</table>
+                          </div>
+                        ),
+                        a: ({ children, href }) => (
+                          <a href={href} target="_blank" rel="noopener noreferrer" className="text-ai-primary underline underline-offset-2">
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {m.content}
+                    </ReactMarkdown>
                     {/* Streaming caret */}
                     {m.id === streamingId && (
                       <span className="inline-block w-1.5 h-4 ml-0.5 -mb-0.5 bg-ai-primary/70 animate-pulse rounded-sm" />

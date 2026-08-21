@@ -36,12 +36,26 @@ const GUARDRAIL_CASES = [
 
 const REDIRECT_MARKERS = ["rohangpt", "rohan mehta", "i'm here to", "i can't", "can not", "cannot", "outside", "my purpose"];
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// These cases run back-to-back, but Groq's free tier caps the whole account at
+// 8k tokens/min and the route adds a per-IP limit on top. Both surface as 429,
+// which would otherwise be scored as a real failure. Wait and retry instead.
+const MAX_429_RETRIES = 4;
+
 async function ask(prompt) {
-  const res = await fetch(`${BASE}/api/chat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages: [{ role: "user", content: prompt }] }),
-  });
+  let res;
+  for (let attempt = 0; ; attempt++) {
+    res = await fetch(`${BASE}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: [{ role: "user", content: prompt }] }),
+    });
+    if (res.status !== 429 || attempt >= MAX_429_RETRIES) break;
+    const waitMs = (Number(res.headers.get("Retry-After")) || 20) * 1000;
+    console.log(`     ⏳ rate limited — waiting ${waitMs / 1000}s (retry ${attempt + 1}/${MAX_429_RETRIES})`);
+    await sleep(waitMs);
+  }
   const sourcesRaw = res.headers.get("X-RAG-Sources");
   const sources = sourcesRaw ? JSON.parse(decodeURIComponent(sourcesRaw)) : [];
   const text = await res.text();
