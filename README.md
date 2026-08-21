@@ -9,7 +9,7 @@ A ChatGPT-style portfolio for **Rohan Mehta** (AI Engineer). Instead of a static
 - **TF-IDF RAG** — In-memory keyword retrieval with structure-aware chunking and cosine similarity. Fast, dependency-free, and works on Vercel without any external embedding API.
 - **Structure-aware chunking** — documents are chunked on their own authored semantic units, with frontmatter stripped and tags harvested as retrieval keywords.
 - **Live GitHub sync** — public repos are fetched from the GitHub REST API at runtime and injected into the prompt + RAG context. **Push a new repo and it appears automatically** — no redeploy.
-- **Real token streaming** — responses stream from Groq token-by-token (llama-3.3-70b-versatile).
+- **Real token streaming** — responses stream from Groq token-by-token (openai/gpt-oss-120b).
 - **Grounded, honest & guarded** — a guardrail-first system prompt forbids fabrication and refuses off-topic / jailbreak / prompt-extraction attempts, then redirects. Answers cite the exact sources they used.
 - **Production hardening** — server-only secrets, per-IP rate limiting, input caps, security headers, generic error responses, and structured logging.
 - **Evaluated** — `npm run eval` runs a retrieval + guardrail test suite against the live endpoint.
@@ -23,7 +23,7 @@ Browser (ChatInterface.tsx)  ──POST /api/chat──►  Next.js Route Handle
    │                                                      ├─ getRAGIndex()      → TF-IDF keyword retrieval
    │                                                      ├─ getGitHubRepos()   → live GitHub REST API (cached ~1h)
    │                                                      ├─ build system prompt → guardrails + profile + chunks + live repos
-   └──────────────────────────────────────────────────── └─ Groq (llama-3.3-70b-versatile) → streaming chat completions
+   └──────────────────────────────────────────────────── └─ Groq (openai/gpt-oss-120b) → streaming chat completions
 ```
 
 | Layer | File | Responsibility |
@@ -64,7 +64,7 @@ npm run eval                    # (optional) run the RAG + guardrail suite again
 
 | Variable | Required | Purpose |
 |----------|----------|---------| 
-| `GROQ_API_KEY` | ✅ | Groq LLM (llama-3.3-70b-versatile). **Server-only** — never prefix with `NEXT_PUBLIC_`. Get one free at https://console.groq.com/keys |
+| `GROQ_API_KEY` | ✅ | Groq LLM (openai/gpt-oss-120b). **Server-only** — never prefix with `NEXT_PUBLIC_`. Get one free at https://console.groq.com/keys |
 | `GITHUB_USERNAME` | ✅ | Whose public repos to display live. |
 | `GITHUB_TOKEN` | optional | Read-only PAT to raise the GitHub rate limit (60 → 5000 req/hr). |
 
@@ -84,4 +84,4 @@ No config needed — Next.js is auto-detected and the API routes run as standard
 
 ## 🧱 Tech Stack
 
-Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · Groq (`llama-3.3-70b-versatile`) · GitHub REST API
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion · Groq (`openai/gpt-oss-120b`) · GitHub REST API

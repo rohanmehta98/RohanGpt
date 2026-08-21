@@ -172,8 +172,8 @@ export const portfolioData = {
       id: "proj-rohangpt",
       title: "RohanGPT — This AI Portfolio",
       description:
-        "This app. A ChatGPT-style portfolio with a hybrid RAG engine (Gemini embeddings + TF-IDF fallback) over Rohan's resume, LinkedIn, and GitHub, plus live GitHub project sync. Built with Next.js + Gemini.",
-      techStack: ["Next.js", "TypeScript", "Gemini", "RAG", "GitHub API"],
+        "This app. A ChatGPT-style portfolio with a TF-IDF keyword RAG engine over Rohan's resume, LinkedIn, and GitHub, plus live GitHub project sync. Built with Next.js + Groq.",
+      techStack: ["Next.js", "TypeScript", "Groq", "RAG", "GitHub API"],
       link: "https://github.com/rohanmehta98/RohanGpt",
       year: "2026",
     },
